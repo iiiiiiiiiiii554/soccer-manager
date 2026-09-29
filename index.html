@@ -47,7 +47,7 @@
     .team-name {
         font-size: 24px;
         font-weight: bold;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
     .stats {
@@ -64,6 +64,32 @@
     }
 
     .stat-value {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .player {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .player:last-child {
+        border-bottom: none;
+    }
+
+    .player-name {
+        font-weight: bold;
+    }
+
+    .position {
+        color: #777;
+        font-size: 14px;
+    }
+
+    .rating {
         font-size: 20px;
         font-weight: bold;
     }
@@ -88,11 +114,6 @@
         line-height: 1.8;
         white-space: pre-line;
     }
-
-    .goal {
-        font-weight: bold;
-        font-size: 18px;
-    }
 </style>
 </head>
 
@@ -104,10 +125,15 @@
 
 <div class="container">
 
+    <!-- チーム情報 -->
     <div class="card">
-        <div class="team-name">東京ユナイテッド</div>
+
+        <div class="team-name">
+            東京ユナイテッド
+        </div>
 
         <div class="stats">
+
             <div class="stat">
                 <div>資金</div>
                 <div class="stat-value">¥120M</div>
@@ -122,10 +148,103 @@
                 <div>勝点</div>
                 <div class="stat-value">24</div>
             </div>
+
         </div>
+
     </div>
 
+
+    <!-- 選手一覧 -->
     <div class="card">
+
+        <h2>選手一覧</h2>
+
+        <div class="player">
+            <div>
+                <div class="player-name">佐藤 翔</div>
+                <div class="position">GK</div>
+            </div>
+            <div class="rating">78</div>
+        </div>
+
+        <div class="player">
+            <div>
+                <div class="player-name">鈴木 大地</div>
+                <div class="position">DF</div>
+            </div>
+            <div class="rating">74</div>
+        </div>
+
+        <div class="player">
+            <div>
+                <div class="player-name">田中 蓮</div>
+                <div class="position">DF</div>
+            </div>
+            <div class="rating">71</div>
+        </div>
+
+        <div class="player">
+            <div>
+                <div class="player-name">伊藤 健太</div>
+                <div class="position">DF</div>
+            </div>
+            <div class="rating">69</div>
+        </div>
+
+        <div class="player">
+            <div>
+                <div class="player-name">山田 悠真</div>
+                <div class="position">MF</div>
+            </div>
+            <div class="rating">81</div>
+        </div>
+
+        <div class="player">
+            <div>
+                <div class="player-name">中村 颯</div>
+                <div class="position">MF</div>
+            </div>
+            <div class="rating">76</div>
+        </div>
+
+        <div class="player">
+            <div>
+                <div class="player-name">小林 陸</div>
+                <div class="position">MF</div>
+            </div>
+            <div class="rating">73</div>
+        </div>
+
+        <div class="player">
+            <div>
+                <div class="player-name">高橋 翼</div>
+                <div class="position">FW</div>
+            </div>
+            <div class="rating">85</div>
+        </div>
+
+        <div class="player">
+            <div>
+                <div class="player-name">渡辺 海斗</div>
+                <div class="position">FW</div>
+            </div>
+            <div class="rating">79</div>
+        </div>
+
+        <div class="player">
+            <div>
+                <div class="player-name">山口 陽</div>
+                <div class="position">FW</div>
+            </div>
+            <div class="rating">72</div>
+        </div>
+
+    </div>
+
+
+    <!-- 試合 -->
+    <div class="card">
+
         <h2>次の試合</h2>
 
         <h2 style="text-align:center;">
@@ -137,17 +256,23 @@
         <button onclick="playMatch()">
             試合開始
         </button>
+
     </div>
 
+
+    <!-- 試合結果 -->
     <div class="card">
+
         <h2>試合結果</h2>
 
         <div id="matchResult">
             まだ試合を行っていません。
         </div>
+
     </div>
 
 </div>
+
 
 <script>
 
@@ -155,36 +280,98 @@ function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+
 function playMatch() {
 
-    const homeGoals = randomNumber(0, 4);
-    const awayGoals = randomNumber(0, 3);
+    // 東京ユナイテッドの能力
+    const attackPower = 81;
+    const defensePower = 72;
 
-    const homeShots = randomNumber(7, 18);
-    const awayShots = randomNumber(5, 15);
+    // 大阪レッドの能力
+    const opponentAttack = 76;
+    const opponentDefense = 74;
+
+
+    // 能力差を少し反映
+    let homeGoals = 0;
+    let awayGoals = 0;
+
+
+    // 東京の攻撃
+    const homeChance =
+        attackPower - opponentDefense + randomNumber(0, 25);
+
+    if (homeChance > 25) {
+        homeGoals = randomNumber(0, 3);
+    }
+
+
+    // 大阪の攻撃
+    const awayChance =
+        opponentAttack - defensePower + randomNumber(0, 25);
+
+    if (awayChance > 25) {
+        awayGoals = randomNumber(0, 3);
+    }
+
+
+    const homeShots = randomNumber(8, 18);
+    const awayShots = randomNumber(6, 16);
 
     const homePossession = randomNumber(45, 60);
     const awayPossession = 100 - homePossession;
 
+
     let result = "";
 
-    result += "東京ユナイテッド  " + homeGoals + " - " + awayGoals + "  大阪レッド\n\n";
+    result +=
+        "東京ユナイテッド  " +
+        homeGoals +
+        " - " +
+        awayGoals +
+        "  大阪レッド\n\n";
+
 
     result += "シュート\n";
-    result += "東京ユナイテッド　" + homeShots + "\n";
-    result += "大阪レッド　　　　" + awayShots + "\n\n";
+
+    result +=
+        "東京ユナイテッド　" +
+        homeShots +
+        "\n";
+
+    result +=
+        "大阪レッド　　　　" +
+        awayShots +
+        "\n\n";
+
 
     result += "ボール支配率\n";
-    result += "東京ユナイテッド　" + homePossession + "%\n";
-    result += "大阪レッド　　　　" + awayPossession + "%\n\n";
+
+    result +=
+        "東京ユナイテッド　" +
+        homePossession +
+        "%\n";
+
+    result +=
+        "大阪レッド　　　　" +
+        awayPossession +
+        "%\n\n";
+
 
     if (homeGoals > awayGoals) {
+
         result += "🎉 東京ユナイテッドの勝利！";
+
     } else if (homeGoals < awayGoals) {
+
         result += "大阪レッドの勝利……";
+
     } else {
+
         result += "🤝 引き分け";
+
     }
+
 
     document.getElementById("matchResult").textContent = result;
 }
