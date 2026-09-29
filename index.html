@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Soccer Manager</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #eef2f5;
+        color: #222;
+    }
+
+    header {
+        background: #17324d;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .container {
+        max-width: 700px;
+        margin: auto;
+        padding: 16px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 14px;
+        padding: 18px;
+        margin-bottom: 16px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    }
+
+    .team-name {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        text-align: center;
+    }
+
+    .stat {
+        background: #f1f4f7;
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+    .stat-value {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    button {
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        font-size: 17px;
+        font-weight: bold;
+        background: #1976d2;
+        color: white;
+        cursor: pointer;
+    }
+
+    button:active {
+        transform: scale(0.98);
+    }
+
+    #matchResult {
+        line-height: 1.8;
+        white-space: pre-line;
+    }
+
+    .goal {
+        font-weight: bold;
+        font-size: 18px;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>⚽ Soccer Manager</h1>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <div class="team-name">東京ユナイテッド</div>
+
+        <div class="stats">
+            <div class="stat">
+                <div>資金</div>
+                <div class="stat-value">¥120M</div>
+            </div>
+
+            <div class="stat">
+                <div>順位</div>
+                <div class="stat-value">6位</div>
+            </div>
+
+            <div class="stat">
+                <div>勝点</div>
+                <div class="stat-value">24</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>次の試合</h2>
+
+        <h2 style="text-align:center;">
+            東京ユナイテッド<br>
+            <span style="font-size:16px;">VS</span><br>
+            大阪レッド
+        </h2>
+
+        <button onclick="playMatch()">
+            試合開始
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>試合結果</h2>
+
+        <div id="matchResult">
+            まだ試合を行っていません。
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function playMatch() {
+
+    const homeGoals = randomNumber(0, 4);
+    const awayGoals = randomNumber(0, 3);
+
+    const homeShots = randomNumber(7, 18);
+    const awayShots = randomNumber(5, 15);
+
+    const homePossession = randomNumber(45, 60);
+    const awayPossession = 100 - homePossession;
+
+    let result = "";
+
+    result += "東京ユナイテッド  " + homeGoals + " - " + awayGoals + "  大阪レッド\n\n";
+
+    result += "シュート\n";
+    result += "東京ユナイテッド　" + homeShots + "\n";
+    result += "大阪レッド　　　　" + awayShots + "\n\n";
+
+    result += "ボール支配率\n";
+    result += "東京ユナイテッド　" + homePossession + "%\n";
+    result += "大阪レッド　　　　" + awayPossession + "%\n\n";
+
+    if (homeGoals > awayGoals) {
+        result += "🎉 東京ユナイテッドの勝利！";
+    } else if (homeGoals < awayGoals) {
+        result += "大阪レッドの勝利……";
+    } else {
+        result += "🤝 引き分け";
+    }
+
+    document.getElementById("matchResult").textContent = result;
+}
+
+</script>
+
+</body>
+</html>
